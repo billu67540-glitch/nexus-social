@@ -1,4 +1,4 @@
-   <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
@@ -7,26 +7,37 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
         body { background-color: #0f172a; color: #fff; padding-bottom: 70px; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #1e293b; border-bottom: 1px solid #334155; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #1e293b; border-bottom: 1px solid #334155; position: sticky; top: 0; z-index: 100; }
         .logo { font-weight: bold; font-size: 1.2rem; display: flex; align-items: center; gap: 8px; color: #38bdf8; }
         main { padding: 15px; max-width: 600px; margin: 0 auto; }
         
-        /* New Post Form Box */
+        /* New Post Box */
         .create-post { background: #1e293b; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #334155; }
         .create-post input, .create-post textarea { width: 100%; padding: 10px; margin-bottom: 10px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 8px; outline: none; }
         .create-post button { width: 100%; padding: 10px; background: #38bdf8; color: #0f172a; border: none; font-weight: bold; border-radius: 8px; cursor: pointer; }
-        .create-post button:hover { background: #0284c7; color: #fff; }
 
-        /* Post Card Styling */
+        /* Post Card */
         article { background: #1e293b; border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid #334155; }
         .user-info { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
         .avatar { width: 40px; height: 40px; background: #38bdf8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #0f172a; }
         .username { font-weight: bold; }
         .time { font-size: 0.8rem; color: #94a3b8; }
         .post-text { margin-bottom: 10px; line-height: 1.4; }
+        .post-img { width: 100%; border-radius: 8px; margin-bottom: 10px; max-height: 350px; object-fit: cover; }
+        .like-btn { background: #334155; border: none; color: #fff; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 5px; }
+
+        /* Chat Section */
+        #chat-section { display: none; }
+        .chat-box { background: #1e293b; border-radius: 12px; border: 1px solid #334155; height: 60vh; display: flex; flex-direction: column; }
+        .messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .msg { background: #0f172a; padding: 8px 12px; border-radius: 8px; max-width: 80%; width: fit-content; }
+        .msg-user { font-size: 0.75rem; color: #38bdf8; font-weight: bold; }
+        .chat-input-area { display: flex; padding: 10px; gap: 10px; border-top: 1px solid #334155; }
+        .chat-input-area input { flex: 1; padding: 10px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 8px; outline: none; }
+        .chat-input-area button { padding: 10px 15px; background: #38bdf8; color: #0f172a; border: none; font-weight: bold; border-radius: 8px; cursor: pointer; }
 
         /* Bottom Nav */
-        nav { position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #334155; }
+        nav { position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #334155; z-index: 100; }
         nav div { text-align: center; color: #94a3b8; cursor: pointer; }
         nav div.active { color: #38bdf8; }
         nav small { display: block; font-size: 0.75rem; margin-top: 2px; }
@@ -36,35 +47,46 @@
 
     <header>
         <div class="logo"><span>ϟ</span> NEXUS</div>
-        <div>☰ #general</div>
+        <div id="header-title">☰ #feed</div>
         <div></div>
     </header>
 
     <main>
-        <!-- New Post Write Section -->
-        <div class="create-post">
-            <input type="text" id="usernameInput" placeholder="তোমার নাম (Your Name)">
-            <textarea id="postInput" rows="3" placeholder="মনে কী আছে লেখো..."></textarea>
-            <button id="postBtn">পোস্ট করো</button>
+        <!-- FEED SECTION -->
+        <div id="feed-section">
+            <div class="create-post">
+                <input type="text" id="usernameInput" placeholder="তোমার নাম (Name)">
+                <textarea id="postInput" rows="2" placeholder="কী ভাবছো বলো..."></textarea>
+                <input type="text" id="imgUrlInput" placeholder="ইমেজ লিংক (Optional Image URL)">
+                <button id="postBtn">পোস্ট করো</button>
+            </div>
+
+            <section id="posts-container">
+                <p style="text-align: center; color: #94a3b8;">পোস্ট লোড হচ্ছে...</p>
+            </section>
         </div>
 
-        <!-- Realtime Feed Container -->
-        <section id="posts-container">
-            <p style="text-align: center; color: #94a3b8;">পোস্ট লোড হচ্ছে...</p>
-        </section>
+        <!-- LIVE CHAT SECTION -->
+        <div id="chat-section">
+            <div class="chat-box">
+                <div class="messages" id="chat-messages"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="chatMsgInput" placeholder="মেসেজ লেখো...">
+                    <button id="sendChatBtn">Send</button>
+                </div>
+            </div>
+        </div>
     </main>
 
     <nav>
-        <div class="active"><div>▣</div><small>Feed</small></div>
-        <div><div>💬</div><small>Chat</small></div>
-        <div><div>♧</div><small>Friends</small></div>
-        <div><div>♙</div><small>Profile</small></div>
+        <div id="nav-feed" class="active"><div>▣</div><small>Feed</small></div>
+        <div id="nav-chat"><div>💬</div><small>Chat</small></div>
     </nav>
 
     <!-- Firebase Script -->
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-      import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+      import { getDatabase, ref, push, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
       const firebaseConfig = {
         apiKey: "AIzaSyBT4dUvqLsl6ca7JdHsie5KW6ps1z_ph4w",
@@ -79,40 +101,63 @@
       const app = initializeApp(firebaseConfig);
       const db = getDatabase(app);
 
+      // Elements
+      const feedSection = document.getElementById('feed-section');
+      const chatSection = document.getElementById('chat-section');
+      const navFeed = document.getElementById('nav-feed');
+      const navChat = document.getElementById('nav-chat');
+      const headerTitle = document.getElementById('header-title');
+
+      // Navigation Logic
+      navFeed.addEventListener('click', () => {
+        feedSection.style.display = "block";
+        chatSection.style.display = "none";
+        navFeed.classList.add('active');
+        navChat.classList.remove('active');
+        headerTitle.innerText = "☰ #feed";
+      });
+
+      navChat.addEventListener('click', () => {
+        feedSection.style.display = "none";
+        chatSection.style.display = "block";
+        navChat.classList.add('active');
+        navFeed.classList.remove('active');
+        headerTitle.innerText = "💬 #global-chat";
+      });
+
+      // CREATE POST & IMAGE SUPPORT
       const usernameInput = document.getElementById('usernameInput');
       const postInput = document.getElementById('postInput');
+      const imgUrlInput = document.getElementById('imgUrlInput');
       const postBtn = document.getElementById('postBtn');
       const postsContainer = document.getElementById('posts-container');
 
-      // Send Post to Firebase
       postBtn.addEventListener('click', () => {
         const username = usernameInput.value.trim() || "GuestUser";
         const text = postInput.value.trim();
+        const imgUrl = imgUrlInput.value.trim();
 
-        if(text !== "") {
-          const postsRef = ref(db, 'posts');
-          push(postsRef, {
+        if(text || imgUrl) {
+          push(ref(db, 'posts'), {
             username: username,
             text: text,
+            imgUrl: imgUrl,
+            likes: 0,
             timestamp: Date.now()
           });
           postInput.value = "";
-        } else {
-          alert("কিছু একটা তো লেখো ব্রো!");
+          imgUrlInput.value = "";
         }
       });
 
-      // Fetch Post in Realtime
-      const postsRef = ref(db, 'posts');
-      onValue(postsRef, (snapshot) => {
+      // READ POSTS & LIKES
+      onValue(ref(db, 'posts'), (snapshot) => {
         postsContainer.innerHTML = "";
         const data = snapshot.val();
-        
         if (data) {
-          // Newest post on top
-          const postList = Object.values(data).reverse(); 
-
-          postList.forEach(post => {
+          const keys = Object.keys(data).reverse();
+          keys.forEach(key => {
+            const post = data[key];
             const article = document.createElement('article');
             article.innerHTML = `
               <div class="user-info">
@@ -122,14 +167,57 @@
                   <div class="time">${new Date(post.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
                 </div>
               </div>
-              <div class="post-text">${post.text}</div>
+              ${post.text ? `<div class="post-text">${post.text}</div>` : ''}
+              ${post.imgUrl ? `<img src="${post.imgUrl}" class="post-img" alt="Post Image">` : ''}
+              <button class="like-btn" id="like-${key}">❤️ ${post.likes || 0} Likes</button>
             `;
             postsContainer.appendChild(article);
+
+            // Like System
+            document.getElementById(`like-${key}`).addEventListener('click', () => {
+              const postLikesRef = ref(db, `posts/${key}/likes`);
+              runTransaction(postLikesRef, (currentLikes) => (currentLikes || 0) + 1);
+            });
           });
-        } else {
-          postsContainer.innerHTML = '<p style="text-align: center; color: #94a3b8;">এখনো কোনো পোস্ট নেই। প্রথম পোস্টটি তুমিই করো!</p>';
+        }
+      });
+
+      // LIVE CHAT SYSTEM
+      const chatMsgInput = document.getElementById('chatMsgInput');
+      const sendChatBtn = document.getElementById('sendChatBtn');
+      const chatMessages = document.getElementById('chat-messages');
+
+      sendChatBtn.addEventListener('click', () => {
+        const msgText = chatMsgInput.value.trim();
+        const username = usernameInput.value.trim() || "GuestUser";
+        if (msgText) {
+          push(ref(db, 'chats'), {
+            username: username,
+            message: msgText,
+            timestamp: Date.now()
+          });
+          chatMsgInput.value = "";
+        }
+      });
+
+      // READ CHAT MESSAGES
+      onValue(ref(db, 'chats'), (snapshot) => {
+        chatMessages.innerHTML = "";
+        const data = snapshot.val();
+        if (data) {
+          Object.values(data).forEach(msg => {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = "msg";
+            msgDiv.innerHTML = `
+              <div class="msg-user">${msg.username}</div>
+              <div>${msg.message}</div>
+            `;
+            chatMessages.appendChild(msgDiv);
+          });
+          chatMessages.scrollTop = chatMessages.scrollHeight;
         }
       });
     </script>
 </body>
-</html>
+   </html>
+   
