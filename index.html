@@ -5,52 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEXUS Social</title>
     <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-color: #ffffff;
-            --subtext-color: #94a3b8;
-            --border-color: #334155;
-            --accent-color: #38bdf8;
-            --input-bg: #0f172a;
-        }
-
-        body.light-mode {
-            --bg-color: #f1f5f9;
-            --card-bg: #ffffff;
-            --text-color: #0f172a;
-            --subtext-color: #64748b;
-            --border-color: #cbd5e1;
-            --accent-color: #0284c7;
-            --input-bg: #f8fafc;
-        }
-
+        :root { --bg-color: #0f172a; --card-bg: #1e293b; --text-color: #fff; --subtext-color: #94a3b8; --border-color: #334155; --accent-color: #38bdf8; --input-bg: #0f172a; }
+        body.light-mode { --bg-color: #f1f5f9; --card-bg: #fff; --text-color: #0f172a; --subtext-color: #64748b; --border-color: #cbd5e1; --accent-color: #0284c7; --input-bg: #f8fafc; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; transition: background 0.2s, color 0.2s; }
         body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: 70px; }
-        
         header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: var(--card-bg); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
         .logo { font-weight: bold; font-size: 1.2rem; color: var(--accent-color); }
         .header-actions { display: flex; gap: 8px; align-items: center; }
-        .theme-btn, .logout-btn { border: none; color: #fff; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
+        .theme-btn, .logout-btn { border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
         .theme-btn { background: var(--border-color); color: var(--text-color); }
-        .logout-btn { background: #ef4444; display: none; }
-
+        .logout-btn { background: #ef4444; color: #fff; display: none; }
         main { padding: 15px; max-width: 600px; margin: 0 auto; }
-        
         #auth-section { background: var(--card-bg); padding: 25px; border-radius: 12px; border: 1px solid var(--border-color); text-align: center; margin-top: 20px; }
         #auth-section h2 { margin-bottom: 15px; color: var(--accent-color); }
         #auth-section input { width: 100%; padding: 12px; margin-bottom: 12px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 8px; outline: none; }
         #auth-section button { width: 100%; padding: 12px; background: var(--accent-color); color: #0f172a; border: none; font-weight: bold; border-radius: 8px; cursor: pointer; margin-bottom: 10px; }
         .toggle-auth { color: var(--subtext-color); font-size: 0.85rem; cursor: pointer; text-decoration: underline; }
-
         #app-content { display: none; }
-        
         .create-post { background: var(--card-bg); padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--border-color); }
         .create-post textarea { width: 100%; padding: 10px; margin-bottom: 10px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 8px; outline: none; }
         .file-label { display: block; background: var(--input-bg); border: 1px dashed var(--accent-color); padding: 10px; text-align: center; border-radius: 8px; margin-bottom: 10px; cursor: pointer; color: var(--accent-color); font-size: 0.85rem; }
         .file-label input { display: none; }
         .create-post button { width: 100%; padding: 10px; background: var(--accent-color); color: #0f172a; border: none; font-weight: bold; border-radius: 8px; cursor: pointer; }
-
         article { background: var(--card-bg); border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--border-color); }
         .user-info { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
         .user-details { display: flex; align-items: center; gap: 10px; }
@@ -63,16 +39,12 @@
         .post-actions { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
         .like-btn, .comment-toggle-btn { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; }
         .delete-btn { background: #ef4444; border: none; color: #fff; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: bold; }
-
-        /* Comments Styling */
         .comments-box { border-top: 1px solid var(--border-color); padding-top: 10px; display: none; }
         .comment-item { background: var(--input-bg); padding: 8px 10px; border-radius: 6px; margin-bottom: 6px; font-size: 0.85rem; word-break: break-word; }
         .comment-user { font-weight: bold; color: var(--accent-color); margin-right: 5px; }
         .comment-input-group { display: flex; gap: 5px; margin-top: 8px; }
         .comment-input-group input { flex: 1; padding: 6px 10px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 6px; outline: none; }
         .comment-input-group button { padding: 6px 10px; background: var(--accent-color); border: none; color: #0f172a; font-weight: bold; border-radius: 6px; cursor: pointer; }
-
-        /* Chat Styling */
         #chat-section, #dm-section, #profile-section { display: none; }
         .chat-box { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color); height: 60vh; display: flex; flex-direction: column; }
         .messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
@@ -81,13 +53,10 @@
         .chat-input-area { display: flex; padding: 10px; gap: 10px; border-top: 1px solid var(--border-color); }
         .chat-input-area input { flex: 1; padding: 10px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 8px; outline: none; }
         .chat-input-area button { padding: 10px 15px; background: var(--accent-color); color: #0f172a; border: none; font-weight: bold; border-radius: 8px; cursor: pointer; }
-
-        /* Profile Styling */
         .profile-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; text-align: center; }
         .profile-avatar { width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 10px; background: var(--accent-color); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; color: #0f172a; background-size: cover; background-position: center; }
         .profile-card input, .profile-card textarea { width: 100%; padding: 10px; margin: 8px 0; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 8px; outline: none; }
         .profile-card button { width: 100%; padding: 10px; background: var(--accent-color); color: #0f172a; border: none; font-weight: bold; border-radius: 8px; cursor: pointer; }
-
         nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card-bg); display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid var(--border-color); z-index: 100; }
         nav div { text-align: center; color: var(--subtext-color); cursor: pointer; }
         nav div.active { color: var(--accent-color); }
@@ -95,7 +64,6 @@
     </style>
 </head>
 <body>
-
     <header>
         <div class="logo">⚡ NEXUS</div>
         <div id="header-title">Welcome</div>
@@ -104,7 +72,6 @@
             <button id="logoutBtn" class="logout-btn">Logout</button>
         </div>
     </header>
-
     <main>
         <div id="auth-section">
             <h2 id="auth-title">Login to NEXUS</h2>
@@ -114,61 +81,38 @@
             <button id="authBtn">লগইন করো</button>
             <p class="toggle-auth" id="toggleAuth">একাউন্ট নেই? নতুন একাউন্ট তৈরি করো</p>
         </div>
-
         <div id="app-content">
-            <!-- Feed Tab -->
             <div id="feed-section">
                 <div class="create-post">
                     <textarea id="postInput" rows="2" placeholder="কী ভাবছো বলো..."></textarea>
-                    <label class="file-label" id="fileLabel">
-                        📷 গ্যালারি থেকে ছবি সিলেক্ট করো
-                        <input type="file" id="imageFileInput" accept="image/*">
-                    </label>
+                    <label class="file-label" id="fileLabel">📷 গ্যালারি থেকে ছবি সিলেক্ট করো<input type="file" id="imageFileInput" accept="image/*"></label>
                     <button id="postBtn">পোস্ট করো</button>
                 </div>
                 <section id="posts-container"></section>
             </div>
-
-            <!-- Global Chat Tab -->
             <div id="chat-section">
                 <div class="chat-box">
                     <div class="messages" id="chat-messages"></div>
-                    <div class="chat-input-area">
-                        <input type="text" id="chatMsgInput" placeholder="মেসেজ লেখো...">
-                        <button id="sendChatBtn">Send</button>
-                    </div>
+                    <div class="chat-input-area"><input type="text" id="chatMsgInput" placeholder="মেসেজ লেখো..."><button id="sendChatBtn">Send</button></div>
                 </div>
             </div>
-
-            <!-- Direct Message Tab -->
             <div id="dm-section">
                 <div class="chat-box">
-                    <div style="padding: 10px; border-bottom: 1px solid var(--border-color);">
-                        <input type="email" id="dmTargetEmail" placeholder="যাকে মেসেজ দেবে তার Email..." style="width: 100%; padding: 8px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 6px;">
-                    </div>
+                    <div style="padding: 10px; border-bottom: 1px solid var(--border-color);"><input type="email" id="dmTargetEmail" placeholder="যাকে মেসেজ দেবে তার Email..." style="width: 100%; padding: 8px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 6px;"></div>
                     <div class="messages" id="dm-messages"></div>
-                    <div class="chat-input-area">
-                        <input type="text" id="dmMsgInput" placeholder="প্রাইভেট মেসেজ...">
-                        <button id="sendDmBtn">Send DM</button>
-                    </div>
+                    <div class="chat-input-area"><input type="text" id="dmMsgInput" placeholder="প্রাইভেট মেসেজ..."><button id="sendDmBtn">Send DM</button></div>
                 </div>
             </div>
-
-            <!-- Profile Tab -->
             <div id="profile-section">
                 <div class="profile-card">
                     <div class="profile-avatar" id="pAvatar">U</div>
                     <h3 id="pName">User Name</h3>
                     <p id="pEmail" style="color: var(--subtext-color); font-size: 0.85rem; margin-bottom: 10px;">email@example.com</p>
                     <textarea id="pBioInput" rows="2" placeholder="তোমার বায়ো লেখো..."></textarea>
-                    <label class="file-label" id="pPicLabel">
-                        🖼️ প্রোফাইল পিকচার চেঞ্জ করো
-                        <input type="file" id="pPicInput" accept="image/*">
-                    </label>
+                    <label class="file-label" id="pPicLabel">🖼️ প্রোফাইল পিকচার চেঞ্জ করো<input type="file" id="pPicInput" accept="image/*"></label>
                     <button id="saveProfileBtn">সেভ প্রোফাইল</button>
                 </div>
             </div>
-
             <nav>
                 <div id="nav-feed" class="active"><div>🏠</div><small>Feed</small></div>
                 <div id="nav-chat"><div>💬</div><small>Chat</small></div>
@@ -176,9 +120,8 @@
                 <div id="nav-profile"><div>👤</div><small>Profile</small></div>
             </nav>
         </div>
-    </main>
-
-    <script type="module">
+                                                                                        </main>
+                                                                                            <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
       import { getDatabase, ref, push, onValue, set, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
       import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -198,7 +141,6 @@
       const auth = getAuth(app);
       const ADMIN_EMAIL = "boruto6093513@gmail.com";
 
-      // Elements
       const authSection = document.getElementById('auth-section');
       const appContent = document.getElementById('app-content');
       const logoutBtn = document.getElementById('logoutBtn');
@@ -208,13 +150,11 @@
       let currentUser = null;
       let profilePicBase64 = "";
 
-      // Theme Switcher
       themeToggle.addEventListener('click', () => {
         document.body.classList.toggle('light-mode');
         themeToggle.innerText = document.body.classList.contains('light-mode') ? "🌙 Dark" : "☀️ Light";
       });
 
-      // Auth Logic
       const authTitle = document.getElementById('auth-title');
       const authName = document.getElementById('authName');
       const authEmail = document.getElementById('authEmail');
@@ -265,19 +205,8 @@
         }
       });
 
-      // Navigation
-      const sections = {
-        feed: document.getElementById('feed-section'),
-        chat: document.getElementById('chat-section'),
-        dm: document.getElementById('dm-section'),
-        profile: document.getElementById('profile-section')
-      };
-      const navBtns = {
-        feed: document.getElementById('nav-feed'),
-        chat: document.getElementById('nav-chat'),
-        dm: document.getElementById('nav-dm'),
-        profile: document.getElementById('nav-profile')
-      };
+      const sections = { feed: document.getElementById('feed-section'), chat: document.getElementById('chat-section'), dm: document.getElementById('dm-section'), profile: document.getElementById('profile-section') };
+      const navBtns = { feed: document.getElementById('nav-feed'), chat: document.getElementById('nav-chat'), dm: document.getElementById('nav-dm'), profile: document.getElementById('nav-profile') };
 
       function switchTab(target) {
         Object.keys(sections).forEach(key => {
@@ -292,7 +221,6 @@
       navBtns.dm.addEventListener('click', () => switchTab('dm'));
       navBtns.profile.addEventListener('click', () => switchTab('profile'));
 
-      // Posts & Comments
       const postInput = document.getElementById('postInput');
       const imageFileInput = document.getElementById('imageFileInput');
       const fileLabel = document.getElementById('fileLabel');
@@ -304,10 +232,7 @@
         const file = e.target.files[0];
         if (file) {
           const reader = new FileReader();
-          reader.onloadend = () => {
-            selectedPostImage = reader.result;
-            fileLabel.innerText = "✅ ছবি সিলেক্ট হয়েছে!";
-          };
+          reader.onloadend = () => { selectedPostImage = reader.result; fileLabel.innerText = "✅ ছবি সিলেক্ট হয়েছে!"; };
           reader.readAsDataURL(file);
         }
       });
@@ -357,4 +282,155 @@
                 ${post.imgUrl ? `<img src="${post.imgUrl}" class="post-img">` : ''}
                 <div class="post-actions">
                   <button class="like-btn" onclick="window.likePost('${key}', ${post.likes || 0})">❤️ ${post.likes || 0}</button>
-                  <button class="comment-toggle-btn" onclick="window.toggleComments('${key}')">💬 Com
+                  <button class="comment-toggle-btn" onclick="window.toggleComments('${key}')">💬 Comments</button>
+                  ${isOwner ? `<button class="delete-btn" onclick="window.deletePost('${key}')">🗑️ Delete</button>` : ''}
+                </div>
+                <div class="comments-box" id="comments-${key}">
+                  <div id="comment-list-${key}"></div>
+                  <div class="comment-input-group">
+                    <input type="text" id="c-input-${key}" placeholder="কমেন্ট লেখো...">
+                    <button onclick="window.addComment('${key}')">Post</button>
+                  </div>
+                </div>
+              `;
+              postsContainer.appendChild(article);
+              loadComments(key);
+            });
+          }
+        });
+      }
+
+      window.likePost = (key, likes) => set(ref(db, `posts/${key}/likes`), likes + 1);
+      window.deletePost = (key) => confirm("পোস্টটি মুছে ফেলতে চাও?") && remove(ref(db, `posts/${key}`));
+      window.toggleComments = (key) => {
+        const box = document.getElementById(`comments-${key}`);
+        box.style.display = box.style.display === "block" ? "none" : "block";
+      };
+
+      window.addComment = (key) => {
+        const input = document.getElementById(`c-input-${key}`);
+        if (input.value.trim()) {
+          push(ref(db, `posts/${key}/comments`), {
+            user: currentUser.displayName || currentUser.email.split('@')[0],
+            text: input.value.trim()
+          });
+          input.value = "";
+        }
+      };
+
+      function loadComments(postKey) {
+        onValue(ref(db, `posts/${postKey}/comments`), (snapshot) => {
+          const container = document.getElementById(`comment-list-${postKey}`);
+          if (!container) return;
+          container.innerHTML = "";
+          const data = snapshot.val();
+          if (data) {
+            Object.values(data).forEach(c => {
+              container.innerHTML += `<div class="comment-item"><span class="comment-user">${c.user}:</span>${c.text}</div>`;
+            });
+          }
+        });
+      }
+
+      const chatMsgInput = document.getElementById('chatMsgInput');
+      const sendChatBtn = document.getElementById('sendChatBtn');
+      const chatMessages = document.getElementById('chat-messages');
+
+      sendChatBtn.addEventListener('click', () => {
+        if (chatMsgInput.value.trim()) {
+          push(ref(db, 'chats'), {
+            username: currentUser.displayName || currentUser.email.split('@')[0],
+            isAdmin: currentUser.email === ADMIN_EMAIL,
+            message: chatMsgInput.value.trim()
+          });
+          chatMsgInput.value = "";
+        }
+      });
+
+      function loadChats() {
+        onValue(ref(db, 'chats'), (snapshot) => {
+          chatMessages.innerHTML = "";
+          const data = snapshot.val();
+          if (data) {
+            Object.values(data).forEach(msg => {
+              chatMessages.innerHTML += `<div class="msg"><div class="msg-user">${msg.username} ${msg.isAdmin ? '👑' : ''}</div><div>${msg.message}</div></div>`;
+            });
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+          }
+        });
+      }
+
+      const dmTargetEmail = document.getElementById('dmTargetEmail');
+      const dmMsgInput = document.getElementById('dmMsgInput');
+      const sendDmBtn = document.getElementById('sendDmBtn');
+      const dmMessages = document.getElementById('dm-messages');
+
+      sendDmBtn.addEventListener('click', () => {
+        const target = dmTargetEmail.value.trim().replace(/[^a-zA-Z0-9]/g, "");
+        const text = dmMsgInput.value.trim();
+        if (target && text) {
+          const myCleanEmail = currentUser.email.replace(/[^a-zA-Z0-9]/g, "");
+          const chatRoom = [myCleanEmail, target].sort().join("_");
+          push(ref(db, `dms/${chatRoom}`), { sender: currentUser.displayName || currentUser.email.split('@')[0], text: text });
+          dmMsgInput.value = "";
+        }
+      });
+
+      dmTargetEmail.addEventListener('change', () => {
+        const target = dmTargetEmail.value.trim().replace(/[^a-zA-Z0-9]/g, "");
+        if (target) {
+          const myCleanEmail = currentUser.email.replace(/[^a-zA-Z0-9]/g, "");
+          const chatRoom = [myCleanEmail, target].sort().join("_");
+          onValue(ref(db, `dms/${chatRoom}`), (snapshot) => {
+            dmMessages.innerHTML = "";
+            const data = snapshot.val();
+            if (data) {
+              Object.values(data).forEach(m => {
+                dmMessages.innerHTML += `<div class="msg"><div class="msg-user">${m.sender}</div><div>${m.text}</div></div>`;
+              });
+              dmMessages.scrollTop = dmMessages.scrollHeight;
+            }
+          });
+        }
+      });
+
+      const pAvatar = document.getElementById('pAvatar');
+      const pName = document.getElementById('pName');
+      const pEmail = document.getElementById('pEmail');
+      const pBioInput = document.getElementById('pBioInput');
+      const pPicInput = document.getElementById('pPicInput');
+      const saveProfileBtn = document.getElementById('saveProfileBtn');
+
+      pPicInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onloadend = () => { profilePicBase64 = reader.result; };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      function loadProfile() {
+        pName.innerText = currentUser.displayName || "User";
+        pEmail.innerText = currentUser.email;
+        if (currentUser.photoURL) pAvatar.style.backgroundImage = `url('${currentUser.photoURL}')`;
+
+        onValue(ref(db, `users/${currentUser.uid}`), (snap) => {
+          const data = snap.val();
+          if (data && data.bio) pBioInput.value = data.bio;
+        });
+      }
+
+      saveProfileBtn.addEventListener('click', () => {
+        const updates = {};
+        if (profilePicBase64) updates.photoURL = profilePicBase64;
+        
+        updateProfile(currentUser, updates).then(() => {
+          set(ref(db, `users/${currentUser.uid}/bio`), pBioInput.value.trim());
+          alert("প্রোফাইল আপডেট হয়েছে!");
+          location.reload();
+        });
+      });
+    </script>
+</body>
+</html>
