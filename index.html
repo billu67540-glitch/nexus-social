@@ -5,53 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEXUS Social</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
-        body { background-color: #0f172a; color: #fff; padding-bottom: 70px; }
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #ffffff;
+            --subtext-color: #94a3b8;
+            --border-color: #334155;
+            --accent-color: #38bdf8;
+            --input-bg: #0f172a;
+        }
+
+        body.light-mode {
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-color: #0f172a;
+            --subtext-color: #64748b;
+            --border-color: #cbd5e1;
+            --accent-color: #0284c7;
+            --input-bg: #f8fafc;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; transition: background 0.2s, color 0.2s; }
+        body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: 70px; }
         
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #1e293b; border-bottom: 1px solid #334155; position: sticky; top: 0; z-index: 100; }
-        .logo { font-weight: bold; font-size: 1.2rem; color: #38bdf8; }
-        .logout-btn { background: #ef4444; border: none; color: #fff; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; display: none; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: var(--card-bg); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
+        .logo { font-weight: bold; font-size: 1.2rem; color: var(--accent-color); }
+        .header-actions { display: flex; gap: 8px; align-items: center; }
+        .theme-btn, .logout-btn { border: none; color: #fff; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
+        .theme-btn { background: var(--border-color); color: var(--text-color); }
+        .logout-btn { background: #ef4444; display: none; }
 
         main { padding: 15px; max-width: 600px; margin: 0 auto; }
         
-        #auth-section { background: #1e293b; padding: 25px; border-radius: 12px; border: 1px solid #334155; text-align: center; margin-top: 20px; }
-        #auth-section h2 { margin-bottom: 15px; color: #38bdf8; }
-        #auth-section input { width: 100%; padding: 12px; margin-bottom: 12px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 8px; outline: none; }
-        #auth-section button { width: 100%; padding: 12px; background: #38bdf8; color: #0f172a; border: none; font-weight: bold; border-radius: 8px; cursor: pointer; margin-bottom: 10px; }
-        .toggle-auth { color: #94a3b8; font-size: 0.85rem; cursor: pointer; text-decoration: underline; }
+        #auth-section { background: var(--card-bg); padding: 25px; border-radius: 12px; border: 1px solid var(--border-color); text-align: center; margin-top: 20px; }
+        #auth-section h2 { margin-bottom: 15px; color: var(--accent-color); }
+        #auth-section input { width: 100%; padding: 12px; margin-bottom: 12px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 8px; outline: none; }
+        #auth-section button { width: 100%; padding: 12px; background: var(--accent-color); color: #0f172a; border: none; font-weight: bold; border-radius: 8px; cursor: pointer; margin-bottom: 10px; }
+        .toggle-auth { color: var(--subtext-color); font-size: 0.85rem; cursor: pointer; text-decoration: underline; }
 
         #app-content { display: none; }
-        .create-post { background: #1e293b; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #334155; }
-        .create-post textarea { width: 100%; padding: 10px; margin-bottom: 10px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 8px; outline: none; }
-        .file-label { display: block; background: #0f172a; border: 1px dashed #38bdf8; padding: 12px; text-align: center; border-radius: 8px; margin-bottom: 10px; cursor: pointer; color: #38bdf8; font-size: 0.9rem; }
+        
+        .create-post { background: var(--card-bg); padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--border-color); }
+        .create-post textarea { width: 100%; padding: 10px; margin-bottom: 10px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 8px; outline: none; }
+        .file-label { display: block; background: var(--input-bg); border: 1px dashed var(--accent-color); padding: 10px; text-align: center; border-radius: 8px; margin-bottom: 10px; cursor: pointer; color: var(--accent-color); font-size: 0.85rem; }
         .file-label input { display: none; }
-        .create-post button { width: 100%; padding: 10px; background: #38bdf8; color: #0f172a; border: none; font-weight: bold; border-radius: 8px; cursor: pointer; }
+        .create-post button { width: 100%; padding: 10px; background: var(--accent-color); color: #0f172a; border: none; font-weight: bold; border-radius: 8px; cursor: pointer; }
 
-        article { background: #1e293b; border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid #334155; }
+        article { background: var(--card-bg); border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--border-color); }
         .user-info { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
         .user-details { display: flex; align-items: center; gap: 10px; }
-        .avatar { width: 40px; height: 40px; background: #38bdf8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #0f172a; }
+        .avatar { width: 40px; height: 40px; background: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #0f172a; overflow: hidden; background-size: cover; background-position: center; }
         .username { font-weight: bold; }
         .admin-badge { background: #f59e0b; color: #0f172a; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-left: 5px; }
-        .time { font-size: 0.8rem; color: #94a3b8; }
+        .time { font-size: 0.8rem; color: var(--subtext-color); }
         .post-text { margin-bottom: 10px; line-height: 1.4; word-break: break-word; }
         .post-img { width: 100%; border-radius: 8px; margin-bottom: 10px; max-height: 350px; object-fit: cover; }
-        .post-actions { display: flex; gap: 10px; align-items: center; }
-        .like-btn { background: #334155; border: none; color: #fff; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; }
+        .post-actions { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+        .like-btn, .comment-toggle-btn { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; }
         .delete-btn { background: #ef4444; border: none; color: #fff; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: bold; }
 
-        #chat-section { display: none; }
-        .chat-box { background: #1e293b; border-radius: 12px; border: 1px solid #334155; height: 60vh; display: flex; flex-direction: column; }
-        .messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .msg { background: #0f172a; padding: 8px 12px; border-radius: 8px; max-width: 80%; width: fit-content; word-break: break-word; }
-        .msg-user { font-size: 0.75rem; color: #38bdf8; font-weight: bold; }
-        .chat-input-area { display: flex; padding: 10px; gap: 10px; border-top: 1px solid #334155; }
-        .chat-input-area input { flex: 1; padding: 10px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 8px; outline: none; }
-        .chat-input-area button { padding: 10px 15px; background: #38bdf8; color: #0f172a; border: none; font-weight: bold; border-radius: 8px; cursor: pointer; }
+        /* Comments Styling */
+        .comments-box { border-top: 1px solid var(--border-color); padding-top: 10px; display: none; }
+        .comment-item { background: var(--input-bg); padding: 8px 10px; border-radius: 6px; margin-bottom: 6px; font-size: 0.85rem; word-break: break-word; }
+        .comment-user { font-weight: bold; color: var(--accent-color); margin-right: 5px; }
+        .comment-input-group { display: flex; gap: 5px; margin-top: 8px; }
+        .comment-input-group input { flex: 1; padding: 6px 10px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 6px; outline: none; }
+        .comment-input-group button { padding: 6px 10px; background: var(--accent-color); border: none; color: #0f172a; font-weight: bold; border-radius: 6px; cursor: pointer; }
 
-        nav { position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #334155; z-index: 100; }
-        nav div { text-align: center; color: #94a3b8; cursor: pointer; }
-        nav div.active { color: #38bdf8; }
+        /* Chat Styling */
+        #chat-section, #dm-section, #profile-section { display: none; }
+        .chat-box { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color); height: 60vh; display: flex; flex-direction: column; }
+        .messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .msg { background: var(--input-bg); padding: 8px 12px; border-radius: 8px; max-width: 80%; width: fit-content; word-break: break-word; }
+        .msg-user { font-size: 0.75rem; color: var(--accent-color); font-weight: bold; }
+        .chat-input-area { display: flex; padding: 10px; gap: 10px; border-top: 1px solid var(--border-color); }
+        .chat-input-area input { flex: 1; padding: 10px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 8px; outline: none; }
+        .chat-input-area button { padding: 10px 15px; background: var(--accent-color); color: #0f172a; border: none; font-weight: bold; border-radius: 8px; cursor: pointer; }
+
+        /* Profile Styling */
+        .profile-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; text-align: center; }
+        .profile-avatar { width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 10px; background: var(--accent-color); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold; color: #0f172a; background-size: cover; background-position: center; }
+        .profile-card input, .profile-card textarea { width: 100%; padding: 10px; margin: 8px 0; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 8px; outline: none; }
+        .profile-card button { width: 100%; padding: 10px; background: var(--accent-color); color: #0f172a; border: none; font-weight: bold; border-radius: 8px; cursor: pointer; }
+
+        nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card-bg); display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid var(--border-color); z-index: 100; }
+        nav div { text-align: center; color: var(--subtext-color); cursor: pointer; }
+        nav div.active { color: var(--accent-color); }
         nav small { display: block; font-size: 0.75rem; margin-top: 2px; }
     </style>
 </head>
@@ -60,7 +99,10 @@
     <header>
         <div class="logo">⚡ NEXUS</div>
         <div id="header-title">Welcome</div>
-        <button id="logoutBtn" class="logout-btn">Logout</button>
+        <div class="header-actions">
+            <button id="themeToggle" class="theme-btn">☀️ Light</button>
+            <button id="logoutBtn" class="logout-btn">Logout</button>
+        </div>
     </header>
 
     <main>
@@ -74,23 +116,20 @@
         </div>
 
         <div id="app-content">
+            <!-- Feed Tab -->
             <div id="feed-section">
                 <div class="create-post">
                     <textarea id="postInput" rows="2" placeholder="কী ভাবছো বলো..."></textarea>
-                    
                     <label class="file-label" id="fileLabel">
                         📷 গ্যালারি থেকে ছবি সিলেক্ট করো
                         <input type="file" id="imageFileInput" accept="image/*">
                     </label>
-                    
                     <button id="postBtn">পোস্ট করো</button>
                 </div>
-
-                <section id="posts-container">
-                    <p style="text-align: center; color: #94a3b8;">পোস্ট লোড হচ্ছে...</p>
-                </section>
+                <section id="posts-container"></section>
             </div>
 
+            <!-- Global Chat Tab -->
             <div id="chat-section">
                 <div class="chat-box">
                     <div class="messages" id="chat-messages"></div>
@@ -101,9 +140,40 @@
                 </div>
             </div>
 
+            <!-- Direct Message Tab -->
+            <div id="dm-section">
+                <div class="chat-box">
+                    <div style="padding: 10px; border-bottom: 1px solid var(--border-color);">
+                        <input type="email" id="dmTargetEmail" placeholder="যাকে মেসেজ দেবে তার Email..." style="width: 100%; padding: 8px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); border-radius: 6px;">
+                    </div>
+                    <div class="messages" id="dm-messages"></div>
+                    <div class="chat-input-area">
+                        <input type="text" id="dmMsgInput" placeholder="প্রাইভেট মেসেজ...">
+                        <button id="sendDmBtn">Send DM</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Tab -->
+            <div id="profile-section">
+                <div class="profile-card">
+                    <div class="profile-avatar" id="pAvatar">U</div>
+                    <h3 id="pName">User Name</h3>
+                    <p id="pEmail" style="color: var(--subtext-color); font-size: 0.85rem; margin-bottom: 10px;">email@example.com</p>
+                    <textarea id="pBioInput" rows="2" placeholder="তোমার বায়ো লেখো..."></textarea>
+                    <label class="file-label" id="pPicLabel">
+                        🖼️ প্রোফাইল পিকচার চেঞ্জ করো
+                        <input type="file" id="pPicInput" accept="image/*">
+                    </label>
+                    <button id="saveProfileBtn">সেভ প্রোফাইল</button>
+                </div>
+            </div>
+
             <nav>
                 <div id="nav-feed" class="active"><div>🏠</div><small>Feed</small></div>
                 <div id="nav-chat"><div>💬</div><small>Chat</small></div>
+                <div id="nav-dm"><div>✉️</div><small>DM</small></div>
+                <div id="nav-profile"><div>👤</div><small>Profile</small></div>
             </nav>
         </div>
     </main>
@@ -126,57 +196,53 @@
       const app = initializeApp(firebaseConfig);
       const db = getDatabase(app);
       const auth = getAuth(app);
-
       const ADMIN_EMAIL = "boruto6093513@gmail.com";
 
+      // Elements
       const authSection = document.getElementById('auth-section');
       const appContent = document.getElementById('app-content');
+      const logoutBtn = document.getElementById('logoutBtn');
+      const headerTitle = document.getElementById('header-title');
+      const themeToggle = document.getElementById('themeToggle');
+
+      let currentUser = null;
+      let profilePicBase64 = "";
+
+      // Theme Switcher
+      themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        themeToggle.innerText = document.body.classList.contains('light-mode') ? "🌙 Dark" : "☀️ Light";
+      });
+
+      // Auth Logic
       const authTitle = document.getElementById('auth-title');
       const authName = document.getElementById('authName');
       const authEmail = document.getElementById('authEmail');
       const authPassword = document.getElementById('authPassword');
       const authBtn = document.getElementById('authBtn');
       const toggleAuth = document.getElementById('toggleAuth');
-      const logoutBtn = document.getElementById('logoutBtn');
-      const headerTitle = document.getElementById('header-title');
-
       let isSignUp = false;
-      let currentUser = null;
 
       toggleAuth.addEventListener('click', () => {
         isSignUp = !isSignUp;
-        if(isSignUp) {
-          authTitle.innerText = "Create Account";
-          authName.style.display = "block";
-          authBtn.innerText = "সাইন-আপ করো";
-          toggleAuth.innerText = "আগে থেকেই একাউন্ট আছে? লগইন করো";
-        } else {
-          authTitle.innerText = "Login to NEXUS";
-          authName.style.display = "none";
-          authBtn.innerText = "লগইন করো";
-          toggleAuth.innerText = "একাউন্ট নেই? নতুন একাউন্ট তৈরি করো";
-        }
+        authTitle.innerText = isSignUp ? "Create Account" : "Login to NEXUS";
+        authName.style.display = isSignUp ? "block" : "none";
+        authBtn.innerText = isSignUp ? "সাইন-আপ করো" : "লগইন করো";
       });
 
       authBtn.addEventListener('click', () => {
         const email = authEmail.value.trim();
         const password = authPassword.value.trim();
         const name = authName.value.trim();
-
         if (!email || !password) return alert("ইমেইল ও পাসওয়ার্ড দাও");
 
         if (isSignUp) {
           if (!name) return alert("তোমার নাম দাও");
           createUserWithEmailAndPassword(auth, email, password)
-            .then((res) => {
-              updateProfile(res.user, { displayName: name }).then(() => {
-                location.reload();
-              });
-            })
+            .then((res) => updateProfile(res.user, { displayName: name }).then(() => location.reload()))
             .catch(err => alert("Error: " + err.message));
         } else {
-          signInWithEmailAndPassword(auth, email, password)
-            .catch(err => alert("Error: " + err.message));
+          signInWithEmailAndPassword(auth, email, password).catch(err => alert("Error: " + err.message));
         }
       });
 
@@ -188,53 +254,58 @@
           authSection.style.display = "none";
           appContent.style.display = "block";
           logoutBtn.style.display = "block";
-          headerTitle.innerText = "Feed";
           loadPosts();
           loadChats();
+          loadProfile();
         } else {
           currentUser = null;
           authSection.style.display = "block";
           appContent.style.display = "none";
           logoutBtn.style.display = "none";
-          headerTitle.innerText = "Welcome";
         }
       });
 
-      const feedSection = document.getElementById('feed-section');
-      const chatSection = document.getElementById('chat-section');
-      const navFeed = document.getElementById('nav-feed');
-      const navChat = document.getElementById('nav-chat');
+      // Navigation
+      const sections = {
+        feed: document.getElementById('feed-section'),
+        chat: document.getElementById('chat-section'),
+        dm: document.getElementById('dm-section'),
+        profile: document.getElementById('profile-section')
+      };
+      const navBtns = {
+        feed: document.getElementById('nav-feed'),
+        chat: document.getElementById('nav-chat'),
+        dm: document.getElementById('nav-dm'),
+        profile: document.getElementById('nav-profile')
+      };
 
-      navFeed.addEventListener('click', () => {
-        feedSection.style.display = "block";
-        chatSection.style.display = "none";
-        navFeed.classList.add('active');
-        navChat.classList.remove('active');
-        headerTitle.innerText = "Feed";
-      });
+      function switchTab(target) {
+        Object.keys(sections).forEach(key => {
+          sections[key].style.display = key === target ? "block" : "none";
+          navBtns[key].classList.toggle('active', key === target);
+        });
+        headerTitle.innerText = target.toUpperCase();
+      }
 
-      navChat.addEventListener('click', () => {
-        feedSection.style.display = "none";
-        chatSection.style.display = "block";
-        navChat.classList.add('active');
-        navFeed.classList.remove('active');
-        headerTitle.innerText = "Global Chat";
-      });
+      navBtns.feed.addEventListener('click', () => switchTab('feed'));
+      navBtns.chat.addEventListener('click', () => switchTab('chat'));
+      navBtns.dm.addEventListener('click', () => switchTab('dm'));
+      navBtns.profile.addEventListener('click', () => switchTab('profile'));
 
+      // Posts & Comments
       const postInput = document.getElementById('postInput');
       const imageFileInput = document.getElementById('imageFileInput');
       const fileLabel = document.getElementById('fileLabel');
       const postBtn = document.getElementById('postBtn');
       const postsContainer = document.getElementById('posts-container');
-      let selectedBase64Image = "";
+      let selectedPostImage = "";
 
       imageFileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file) {
-          fileLabel.innerText = "⏳ ছবি প্রসেস হচ্ছে...";
           const reader = new FileReader();
           reader.onloadend = () => {
-            selectedBase64Image = reader.result;
+            selectedPostImage = reader.result;
             fileLabel.innerText = "✅ ছবি সিলেক্ট হয়েছে!";
           };
           reader.readAsDataURL(file);
@@ -243,108 +314,47 @@
 
       postBtn.addEventListener('click', () => {
         const text = postInput.value.trim();
-        if (!text && !selectedBase64Image) return;
-
-        const isAdmin = currentUser.email === ADMIN_EMAIL;
+        if (!text && !selectedPostImage) return;
 
         push(ref(db, 'posts'), {
+          uid: currentUser.uid,
           username: currentUser.displayName || currentUser.email.split('@')[0],
-          isAdmin: isAdmin,
+          userEmail: currentUser.email,
+          isAdmin: currentUser.email === ADMIN_EMAIL,
           text: text,
-          imgUrl: selectedBase64Image,
+          imgUrl: selectedPostImage,
+          avatar: currentUser.photoURL || "",
           likes: 0,
           timestamp: Date.now()
         });
 
         postInput.value = "";
-        imageFileInput.value = "";
-        selectedBase64Image = "";
-        fileLabel.innerHTML = "📷 গ্যালারি থেকে ছবি সিলেক্ট করো";
+        selectedPostImage = "";
+        fileLabel.innerText = "📷 গ্যালারি থেকে ছবি সিলেক্ট করো";
       });
 
       function loadPosts() {
         onValue(ref(db, 'posts'), (snapshot) => {
           postsContainer.innerHTML = "";
           const data = snapshot.val();
-          const isCurrentAdmin = currentUser && currentUser.email === ADMIN_EMAIL;
-
           if (data) {
-            const keys = Object.keys(data).reverse();
-            keys.forEach(key => {
+            Object.keys(data).reverse().forEach(key => {
               const post = data[key];
-              const currentLikes = post.likes || 0;
+              const isOwner = currentUser && (currentUser.uid === post.uid || currentUser.email === ADMIN_EMAIL);
               const article = document.createElement('article');
+
               article.innerHTML = `
                 <div class="user-info">
                   <div class="user-details">
-                    <div class="avatar">${post.username ? post.username.charAt(0).toUpperCase() : 'U'}</div>
+                    <div class="avatar" style="${post.avatar ? `background-image: url('${post.avatar}')` : ''}">${!post.avatar ? (post.username ? post.username.charAt(0).toUpperCase() : 'U') : ''}</div>
                     <div>
-                      <div class="username">${post.username || 'User'} ${post.isAdmin ? '<span class="admin-badge">👑 ADMIN</span>' : ''}</div>
+                      <div class="username">${post.username} ${post.isAdmin ? '<span class="admin-badge">👑 ADMIN</span>' : ''}</div>
                       <div class="time">${new Date(post.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
                     </div>
                   </div>
                 </div>
                 ${post.text ? `<div class="post-text">${post.text}</div>` : ''}
-                ${post.imgUrl ? `<img src="${post.imgUrl}" class="post-img" alt="Post Image">` : ''}
+                ${post.imgUrl ? `<img src="${post.imgUrl}" class="post-img">` : ''}
                 <div class="post-actions">
-                  <button class="like-btn" onclick="window.likePost('${key}', ${currentLikes})">❤️ ${currentLikes} Likes</button>
-                  ${isCurrentAdmin ? `<button class="delete-btn" onclick="window.deletePost('${key}')">🗑️ Delete</button>` : ''}
-                </div>
-              `;
-              postsContainer.appendChild(article);
-            });
-          } else {
-            postsContainer.innerHTML = '<p style="text-align: center; color: #94a3b8;">কোনো পোস্ট নেই</p>';
-          }
-        });
-      }
-
-      window.likePost = (key, currentLikes) => {
-        set(ref(db, `posts/${key}/likes`), currentLikes + 1);
-      };
-
-      window.deletePost = (key) => {
-        if(confirm("তুমি কি নিশ্চিত যে এই পোস্টটি ডিলিট করতে চাও?")) {
-          remove(ref(db, `posts/${key}`));
-        }
-      };
-
-      const chatMsgInput = document.getElementById('chatMsgInput');
-      const sendChatBtn = document.getElementById('sendChatBtn');
-      const chatMessages = document.getElementById('chat-messages');
-
-      sendChatBtn.addEventListener('click', () => {
-        const msgText = chatMsgInput.value.trim();
-        if (msgText) {
-          const isAdmin = currentUser.email === ADMIN_EMAIL;
-          push(ref(db, 'chats'), {
-            username: currentUser.displayName || currentUser.email.split('@')[0],
-            isAdmin: isAdmin,
-            message: msgText,
-            timestamp: Date.now()
-          });
-          chatMsgInput.value = "";
-        }
-      });
-
-      function loadChats() {
-        onValue(ref(db, 'chats'), (snapshot) => {
-          chatMessages.innerHTML = "";
-          const data = snapshot.val();
-          if (data) {
-            Object.values(data).forEach(msg => {
-              const msgDiv = document.createElement('div');
-              msgDiv.className = "msg";
-              msgDiv.innerHTML = `
-                <div class="msg-user">${msg.username} ${msg.isAdmin ? '👑' : ''}</div>
-                <div>${msg.message}</div>
-              `;
-              chatMessages.appendChild(msgDiv);
-            });
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-          }
-        });
-      }
-    </script>
-</body>
-</html>
+                  <button class="like-btn" onclick="window.likePost('${key}', ${post.likes || 0})">❤️ ${post.likes || 0}</button>
+                  <button class="comment-toggle-btn" onclick="window.toggleComments('${key}')">💬 Com
