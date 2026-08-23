@@ -1,39 +1,135 @@
-<script type="module">
-  // 1. Import initializeApp and Database modules
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-  // 2. Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyBT4dUvqLsl6ca7JdHsie5KW6ps1z_ph4w",
-    authDomain: "nexus-social-b30de.firebaseapp.com",
-    databaseURL: "https://nexus-social-b30de-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "nexus-social-b30de",
-    storageBucket: "nexus-social-b30de.firebasestorage.app",
-    messagingSenderId: "704218228308",
-    appId: "1:704218228308:web:8afe2664591950e55defc1"
-  };
-
-  // 3. Initialize Firebase & Database
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
-
-  // Example: Function to add a post
-  function createPost(username, text) {
-    const postsRef = ref(db, 'posts');
-    push(postsRef, {
-      username: username,
-      text: text,
-      timestamp: Date.now()
-    });
-  }
-
-  // Example: Listen for new posts in real-time
-  const postsRef = ref(db, 'posts');
-  onValue(postsRef, (snapshot) => {
-    const data = snapshot.val();
-    console.log("Realtime Posts:", data);
-    // Here you can render posts directly onto your page HTML!
-  });
-        </script>
+   <!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS Social</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background-color: #0f172a; color: #fff; padding-bottom: 70px; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #1e293b; border-bottom: 1px solid #334155; }
+        .logo { font-weight: bold; font-size: 1.2rem; display: flex; align-items: center; gap: 8px; color: #38bdf8; }
+        main { padding: 15px; max-width: 600px; margin: 0 auto; }
         
+        /* New Post Form Box */
+        .create-post { background: #1e293b; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #334155; }
+        .create-post input, .create-post textarea { width: 100%; padding: 10px; margin-bottom: 10px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 8px; outline: none; }
+        .create-post button { width: 100%; padding: 10px; background: #38bdf8; color: #0f172a; border: none; font-weight: bold; border-radius: 8px; cursor: pointer; }
+        .create-post button:hover { background: #0284c7; color: #fff; }
+
+        /* Post Card Styling */
+        article { background: #1e293b; border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid #334155; }
+        .user-info { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .avatar { width: 40px; height: 40px; background: #38bdf8; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #0f172a; }
+        .username { font-weight: bold; }
+        .time { font-size: 0.8rem; color: #94a3b8; }
+        .post-text { margin-bottom: 10px; line-height: 1.4; }
+
+        /* Bottom Nav */
+        nav { position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #334155; }
+        nav div { text-align: center; color: #94a3b8; cursor: pointer; }
+        nav div.active { color: #38bdf8; }
+        nav small { display: block; font-size: 0.75rem; margin-top: 2px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><span>ϟ</span> NEXUS</div>
+        <div>☰ #general</div>
+        <div></div>
+    </header>
+
+    <main>
+        <!-- New Post Write Section -->
+        <div class="create-post">
+            <input type="text" id="usernameInput" placeholder="তোমার নাম (Your Name)">
+            <textarea id="postInput" rows="3" placeholder="মনে কী আছে লেখো..."></textarea>
+            <button id="postBtn">পোস্ট করো</button>
+        </div>
+
+        <!-- Realtime Feed Container -->
+        <section id="posts-container">
+            <p style="text-align: center; color: #94a3b8;">পোস্ট লোড হচ্ছে...</p>
+        </section>
+    </main>
+
+    <nav>
+        <div class="active"><div>▣</div><small>Feed</small></div>
+        <div><div>💬</div><small>Chat</small></div>
+        <div><div>♧</div><small>Friends</small></div>
+        <div><div>♙</div><small>Profile</small></div>
+    </nav>
+
+    <!-- Firebase Script -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+      import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyBT4dUvqLsl6ca7JdHsie5KW6ps1z_ph4w",
+        authDomain: "nexus-social-b30de.firebaseapp.com",
+        databaseURL: "https://nexus-social-b30de-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "nexus-social-b30de",
+        storageBucket: "nexus-social-b30de.firebasestorage.app",
+        messagingSenderId: "704218228308",
+        appId: "1:704218228308:web:8afe2664591950e55defc1"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      const usernameInput = document.getElementById('usernameInput');
+      const postInput = document.getElementById('postInput');
+      const postBtn = document.getElementById('postBtn');
+      const postsContainer = document.getElementById('posts-container');
+
+      // Send Post to Firebase
+      postBtn.addEventListener('click', () => {
+        const username = usernameInput.value.trim() || "GuestUser";
+        const text = postInput.value.trim();
+
+        if(text !== "") {
+          const postsRef = ref(db, 'posts');
+          push(postsRef, {
+            username: username,
+            text: text,
+            timestamp: Date.now()
+          });
+          postInput.value = "";
+        } else {
+          alert("কিছু একটা তো লেখো ব্রো!");
+        }
+      });
+
+      // Fetch Post in Realtime
+      const postsRef = ref(db, 'posts');
+      onValue(postsRef, (snapshot) => {
+        postsContainer.innerHTML = "";
+        const data = snapshot.val();
+        
+        if (data) {
+          // Newest post on top
+          const postList = Object.values(data).reverse(); 
+
+          postList.forEach(post => {
+            const article = document.createElement('article');
+            article.innerHTML = `
+              <div class="user-info">
+                <div class="avatar">${post.username.charAt(0).toUpperCase()}</div>
+                <div>
+                  <div class="username">${post.username}</div>
+                  <div class="time">${new Date(post.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                </div>
+              </div>
+              <div class="post-text">${post.text}</div>
+            `;
+            postsContainer.appendChild(article);
+          });
+        } else {
+          postsContainer.innerHTML = '<p style="text-align: center; color: #94a3b8;">এখনো কোনো পোস্ট নেই। প্রথম পোস্টটি তুমিই করো!</p>';
+        }
+      });
+    </script>
+</body>
+</html>
