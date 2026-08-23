@@ -9,14 +9,20 @@
         body { background-color: #0f172a; color: #fff; padding-bottom: 70px; }
         header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: #1e293b; border-bottom: 1px solid #334155; position: sticky; top: 0; z-index: 100; }
         .logo { font-weight: bold; font-size: 1.2rem; color: #38bdf8; }
+        .logout-btn { background: #ef4444; border: none; color: #fff; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: bold; display: none; }
         main { padding: 15px; max-width: 600px; margin: 0 auto; }
         
+        #auth-section { background: #1e293b; padding: 25px; border-radius: 12px; border: 1px solid #334155; text-align: center; margin-top: 20px; }
+        #auth-section h2 { margin-bottom: 15px; color: #38bdf8; }
+        #auth-section input { width: 100%; padding: 12px; margin-bottom: 12px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 8px; outline: none; }
+        #auth-section button { width: 100%; padding: 12px; background: #38bdf8; color: #0f172a; border: none; font-weight: bold; border-radius: 8px; cursor: pointer; margin-bottom: 10px; }
+        .toggle-auth { color: #94a3b8; font-size: 0.85rem; cursor: pointer; text-decoration: underline; }
+
+        #app-content { display: none; }
         .create-post { background: #1e293b; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #334155; }
-        .create-post input[type="text"], .create-post textarea { width: 100%; padding: 10px; margin-bottom: 10px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 8px; outline: none; }
-        
+        .create-post textarea { width: 100%; padding: 10px; margin-bottom: 10px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 8px; outline: none; }
         .file-label { display: block; background: #0f172a; border: 1px dashed #38bdf8; padding: 12px; text-align: center; border-radius: 8px; margin-bottom: 10px; cursor: pointer; color: #38bdf8; font-size: 0.9rem; }
         .file-label input { display: none; }
-        
         .create-post button { width: 100%; padding: 10px; background: #38bdf8; color: #0f172a; border: none; font-weight: bold; border-radius: 8px; cursor: pointer; }
 
         article { background: #1e293b; border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid #334155; }
@@ -47,48 +53,59 @@
 
     <header>
         <div class="logo">⚡ NEXUS</div>
-        <div id="header-title">Feed</div>
-        <div></div>
+        <div id="header-title">Welcome</div>
+        <button id="logoutBtn" class="logout-btn">Logout</button>
     </header>
 
     <main>
-        <div id="feed-section">
-            <div class="create-post">
-                <input type="text" id="usernameInput" placeholder="তোমার নাম (Name)">
-                <textarea id="postInput" rows="2" placeholder="কী ভাবছো বলো..."></textarea>
-                
-                <label class="file-label" id="fileLabel">
-                    📷 গ্যালারি থেকে ছবি সিলেক্ট করো
-                    <input type="file" id="imageFileInput" accept="image/*">
-                </label>
-                
-                <button id="postBtn">পোস্ট করো</button>
-            </div>
-
-            <section id="posts-container">
-                <p style="text-align: center; color: #94a3b8;">পোস্ট লোড হচ্ছে...</p>
-            </section>
+        <div id="auth-section">
+            <h2 id="auth-title">Login to NEXUS</h2>
+            <input type="text" id="authName" placeholder="তোমার নাম (Full Name)" style="display: none;">
+            <input type="email" id="authEmail" placeholder="ইমেইল (Email)">
+            <input type="password" id="authPassword" placeholder="পাসওয়ার্ড (Password)">
+            <button id="authBtn">লগইন করো</button>
+            <p class="toggle-auth" id="toggleAuth">একাউন্ট নেই? নতুন একাউন্ট তৈরি করো</p>
         </div>
 
-        <div id="chat-section">
-            <div class="chat-box">
-                <div class="messages" id="chat-messages"></div>
-                <div class="chat-input-area">
-                    <input type="text" id="chatMsgInput" placeholder="মেসেজ লেখো...">
-                    <button id="sendChatBtn">Send</button>
+        <div id="app-content">
+            <div id="feed-section">
+                <div class="create-post">
+                    <textarea id="postInput" rows="2" placeholder="কী ভাবছো বলো..."></textarea>
+                    
+                    <label class="file-label" id="fileLabel">
+                        📷 গ্যালারি থেকে ছবি সিলেক্ট করো
+                        <input type="file" id="imageFileInput" accept="image/*">
+                    </label>
+                    
+                    <button id="postBtn">পোস্ট করো</button>
+                </div>
+
+                <section id="posts-container">
+                    <p style="text-align: center; color: #94a3b8;">পোস্ট লোড হচ্ছে...</p>
+                </section>
+            </div>
+
+            <div id="chat-section">
+                <div class="chat-box">
+                    <div class="messages" id="chat-messages"></div>
+                    <div class="chat-input-area">
+                        <input type="text" id="chatMsgInput" placeholder="মেসেজ লেখো...">
+                        <button id="sendChatBtn">Send</button>
+                    </div>
                 </div>
             </div>
+
+            <nav>
+                <div id="nav-feed" class="active"><div>🏠</div><small>Feed</small></div>
+                <div id="nav-chat"><div>💬</div><small>Chat</small></div>
+            </nav>
         </div>
     </main>
-
-    <nav>
-        <div id="nav-feed" class="active"><div>🏠</div><small>Feed</small></div>
-        <div id="nav-chat"><div>💬</div><small>Chat</small></div>
-    </nav>
 
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
       import { getDatabase, ref, push, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+      import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
       const firebaseConfig = {
         apiKey: "AIzaSyBT4dUvqLsl6ca7JdHsie5KW6ps1z_ph4w",
@@ -102,12 +119,83 @@
 
       const app = initializeApp(firebaseConfig);
       const db = getDatabase(app);
+      const auth = getAuth(app);
+
+      const authSection = document.getElementById('auth-section');
+      const appContent = document.getElementById('app-content');
+      const authTitle = document.getElementById('auth-title');
+      const authName = document.getElementById('authName');
+      const authEmail = document.getElementById('authEmail');
+      const authPassword = document.getElementById('authPassword');
+      const authBtn = document.getElementById('authBtn');
+      const toggleAuth = document.getElementById('toggleAuth');
+      const logoutBtn = document.getElementById('logoutBtn');
+      const headerTitle = document.getElementById('header-title');
+
+      let isSignUp = false;
+      let currentUser = null;
+
+      toggleAuth.addEventListener('click', () => {
+        isSignUp = !isSignUp;
+        if(isSignUp) {
+          authTitle.innerText = "Create Account";
+          authName.style.display = "block";
+          authBtn.innerText = "সাইন-আপ করো";
+          toggleAuth.innerText = "আগে থেকেই একাউন্ট আছে? লগইন করো";
+        } else {
+          authTitle.innerText = "Login to NEXUS";
+          authName.style.display = "none";
+          authBtn.innerText = "লগইন করো";
+          toggleAuth.innerText = "একাউন্ট নেই? নতুন একাউন্ট তৈরি করো";
+        }
+      });
+
+      authBtn.addEventListener('click', () => {
+        const email = authEmail.value.trim();
+        const password = authPassword.value.trim();
+        const name = authName.value.trim();
+
+        if (!email || !password) return alert("ইমেইল ও পাসওয়ার্ড দাও");
+
+        if (isSignUp) {
+          if (!name) return alert("তোমার নাম দাও");
+          createUserWithEmailAndPassword(auth, email, password)
+            .then((res) => {
+              updateProfile(res.user, { displayName: name }).then(() => {
+                location.reload();
+              });
+            })
+            .catch(err => alert("Error: " + err.message));
+        } else {
+          signInWithEmailAndPassword(auth, email, password)
+            .catch(err => alert("Error: " + err.message));
+        }
+      });
+
+      logoutBtn.addEventListener('click', () => signOut(auth));
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          currentUser = user;
+          authSection.style.display = "none";
+          appContent.style.display = "block";
+          logoutBtn.style.display = "block";
+          headerTitle.innerText = "Feed";
+          loadPosts();
+          loadChats();
+        } else {
+          currentUser = null;
+          authSection.style.display = "block";
+          appContent.style.display = "none";
+          logoutBtn.style.display = "none";
+          headerTitle.innerText = "Welcome";
+        }
+      });
 
       const feedSection = document.getElementById('feed-section');
       const chatSection = document.getElementById('chat-section');
       const navFeed = document.getElementById('nav-feed');
       const navChat = document.getElementById('nav-chat');
-      const headerTitle = document.getElementById('header-title');
 
       navFeed.addEventListener('click', () => {
         feedSection.style.display = "block";
@@ -125,16 +213,13 @@
         headerTitle.innerText = "Global Chat";
       });
 
-      const usernameInput = document.getElementById('usernameInput');
       const postInput = document.getElementById('postInput');
       const imageFileInput = document.getElementById('imageFileInput');
       const fileLabel = document.getElementById('fileLabel');
       const postBtn = document.getElementById('postBtn');
       const postsContainer = document.getElementById('posts-container');
-
       let selectedBase64Image = "";
 
-      // Image to Base64 String conversion
       imageFileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -149,13 +234,11 @@
       });
 
       postBtn.addEventListener('click', () => {
-        const username = usernameInput.value.trim() || "Guest";
         const text = postInput.value.trim();
-
         if (!text && !selectedBase64Image) return;
 
         push(ref(db, 'posts'), {
-          username: username,
+          username: currentUser.displayName || currentUser.email.split('@')[0],
           text: text,
           imgUrl: selectedBase64Image,
           likes: 0,
@@ -168,33 +251,35 @@
         fileLabel.innerHTML = "📷 গ্যালারি থেকে ছবি সিলেক্ট করো";
       });
 
-      onValue(ref(db, 'posts'), (snapshot) => {
-        postsContainer.innerHTML = "";
-        const data = snapshot.val();
-        if (data) {
-          const keys = Object.keys(data).reverse();
-          keys.forEach(key => {
-            const post = data[key];
-            const currentLikes = post.likes || 0;
-            const article = document.createElement('article');
-            article.innerHTML = `
-              <div class="user-info">
-                <div class="avatar">${post.username.charAt(0).toUpperCase()}</div>
-                <div>
-                  <div class="username">${post.username}</div>
-                  <div class="time">${new Date(post.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+      function loadPosts() {
+        onValue(ref(db, 'posts'), (snapshot) => {
+          postsContainer.innerHTML = "";
+          const data = snapshot.val();
+          if (data) {
+            const keys = Object.keys(data).reverse();
+            keys.forEach(key => {
+              const post = data[key];
+              const currentLikes = post.likes || 0;
+              const article = document.createElement('article');
+              article.innerHTML = `
+                <div class="user-info">
+                  <div class="avatar">${post.username ? post.username.charAt(0).toUpperCase() : 'U'}</div>
+                  <div>
+                    <div class="username">${post.username || 'User'}</div>
+                    <div class="time">${new Date(post.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                  </div>
                 </div>
-              </div>
-              ${post.text ? `<div class="post-text">${post.text}</div>` : ''}
-              ${post.imgUrl ? `<img src="${post.imgUrl}" class="post-img" alt="Post Image">` : ''}
-              <button class="like-btn" onclick="window.likePost('${key}', ${currentLikes})">❤️ ${currentLikes} Likes</button>
-            `;
-            postsContainer.appendChild(article);
-          });
-        } else {
-          postsContainer.innerHTML = '<p style="text-align: center; color: #94a3b8;">কোনো পোস্ট নেই</p>';
-        }
-      });
+                ${post.text ? `<div class="post-text">${post.text}</div>` : ''}
+                ${post.imgUrl ? `<img src="${post.imgUrl}" class="post-img" alt="Post Image">` : ''}
+                <button class="like-btn" onclick="window.likePost('${key}', ${currentLikes})">❤️ ${currentLikes} Likes</button>
+              `;
+              postsContainer.appendChild(article);
+            });
+          } else {
+            postsContainer.innerHTML = '<p style="text-align: center; color: #94a3b8;">কোনো পোস্ট নেই</p>';
+          }
+        });
+      }
 
       window.likePost = (key, currentLikes) => {
         set(ref(db, `posts/${key}/likes`), currentLikes + 1);
@@ -206,10 +291,9 @@
 
       sendChatBtn.addEventListener('click', () => {
         const msgText = chatMsgInput.value.trim();
-        const username = usernameInput.value.trim() || "Guest";
         if (msgText) {
           push(ref(db, 'chats'), {
-            username: username,
+            username: currentUser.displayName || currentUser.email.split('@')[0],
             message: msgText,
             timestamp: Date.now()
           });
@@ -217,22 +301,25 @@
         }
       });
 
-      onValue(ref(db, 'chats'), (snapshot) => {
-        chatMessages.innerHTML = "";
-        const data = snapshot.val();
-        if (data) {
-          Object.values(data).forEach(msg => {
-            const msgDiv = document.createElement('div');
-            msgDiv.className = "msg";
-            msgDiv.innerHTML = `
-              <div class="msg-user">${msg.username}</div>
-              <div>${msg.message}</div>
-            `;
-            chatMessages.appendChild(msgDiv);
-          });
-          chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-      });
+      function loadChats() {
+        onValue(ref(db, 'chats'), (snapshot) => {
+          chatMessages.innerHTML = "";
+          const data = snapshot.val();
+          if (data) {
+            Object.values(data).forEach(msg => {
+              const msgDiv = document.createElement('div');
+              msgDiv.className = "msg";
+              msgDiv.innerHTML = `
+                <div class="msg-user">${msg.username}</div>
+                <div>${msg.message}</div>
+              `;
+              chatMessages.appendChild(msgDiv);
+            });
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+          }
+        });
+      }
     </script>
 </body>
-</html>
+    </html>
+    
